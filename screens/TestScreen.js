@@ -1,22 +1,32 @@
-import React,{useState} from 'react';
+import React,{useState, useReducer} from 'react';
 import {Text, Button ,View, MaskedViewComponent} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { TextInput, FlatList } from 'react-native-gesture-handler';
 
+
 const Test = ({navigation}) =>{
+
 const [list, changeText] = useState('');
 const [title, changeTitle] = useState('');
 const [todo,changeTodo] = useState([]);
+const initialState = {};
+const [state, dispatch] = useReducer(reducer, initialState);
 const AddInTodo = () =>{
-    let newTodo = list;
-    let newTitle = title;
-    let oldTodo = todo;
-    oldTodo.push(newTodo);
-    changeTodo(oldTodo);
-    console.log(title:list);
+    let array = todo;
+    array.push(list);
+    changeTodo(todo,array);
+
+    
 }
 
+function reducer(state, action) {
+    let array = todo;
+    array.push(list);
+    changeTodo(todo,array);
+    }
+  
+    
 
 
     return (
@@ -24,18 +34,23 @@ const AddInTodo = () =>{
         <Button title="click here" onPress={()=> navigation.navigate('Links')} />
         <TextInput value={title} onChangeText={(something)=>changeTitle(something)} />
         <TextInput value={list} onChangeText={(something)=>changeText(something)} multiline={true}/>
-        
-        
-       <Button title="clear state" onPress={()=>changeText('','')} />
-       <Button title="save state" onPress={()=>AddInTodo()} />
-       <Button title="clear complete" onPress={()=>changeTodo('','')} />
+        <Button title="clear state" onPress={()=>changeText('','')} />
+        <Button title="save state" onPress={()=>changeTodo(todo,todo.push(`${title}:'${list}'`))} />
+        <Button title="clear complete" onPress={()=>changeTodo('','')} />
+        <Button title="log complete" onPress={()=>console.log(`${title}:${list}`)} />
+        <Button title="log todo" onPress={()=>console.log(todo)} />
 
-       <FlatList  
-                    data={{todo}}  
+
+      {/* <FlatList  
+                    data={{todo}}
                     renderItem={({item}) =>{
                         return(
+                            <View>
+                            console.log({text})
                             <Text>{item}</Text>
-                        )} } />
+                            </View>
+                        )} } />  */}
+                        <Text>{todo}</Text>
        
        
     
@@ -49,8 +64,3 @@ const AddInTodo = () =>{
 
 export default Test;
 
-// const styles = StyleSheet.create({
-//     container: {
-//       border
-//     },
-//   });
