@@ -36,7 +36,7 @@ function reducer(state, action) {
         <TextInput value={list} onChangeText={(something)=>changeText(something)} multiline={true}/>
         <Button title="clear state" onPress={()=>changeText('','')} />
         <Button title="save state" onPress={()=>changeTodo(todo,todo.push(`${title}:'${list}'`))} />
-        <Button title="clear complete" onPress={()=>changeTodo('','')} />
+        <Button title="clear complete" onPress={()=>changeTodo(todo,[])} />
         <Button title="log complete" onPress={()=>console.log(`${title}:${list}`)} />
         <Button title="log todo" onPress={()=>console.log(todo)} />
 
